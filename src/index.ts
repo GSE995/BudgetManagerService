@@ -8,6 +8,7 @@ import * as morgan from 'morgan'
 
 import config from './config'
 import database from './config/database'
+import passportConfig from './config/passport'
 
 import AddControllers from './config/controllers'
 
@@ -16,6 +17,7 @@ const BudgetManagerPORT = process.env.PORT || 3001;
 const app = express();
 
 database(mongoose, config)
+passportConfig(passport)
 
 
 app.use(express.static('.'));
