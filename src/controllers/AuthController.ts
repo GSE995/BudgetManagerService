@@ -1,5 +1,6 @@
 import {AuthService} from '../services/AuthService'
 import {Express, Response, Request} from 'express'
+import logger from '../config/logger'
 
 export default (app: Express) => {
 			
@@ -14,7 +15,7 @@ export default (app: Express) => {
                 res.json(result)
 
             } catch (error) {
-                // logger
+                logger.error(error)
             }
             res.status(500).send()
         });
