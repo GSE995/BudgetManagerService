@@ -7,7 +7,15 @@ export class UserService{
 			username,
 			password
 		})
-		let result = await user.save()
+		try {
+			let result = await user.save()
+		} catch (error) {
+			if(error.code === 11000){
+				return new ErroResult('this username exist')
+			}
+			throw error
+		}
+
 		return new SuccessResult()
 	}
 }
