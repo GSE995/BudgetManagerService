@@ -1,26 +1,23 @@
 import BudgetSchema from '../schemas/BudgetSchema'
 import ClientSchema from '../schemas/ClientSchema'
 import {ErroResult, SuccessResult, Result} from '../common/Result'
+import { Budget } from '../models/Budget';
+import BudgetFilter from '../schemas/filters/BudgetFilter';
+import PageParameter from '../common/PageParameter';
+import PageList from '../common/PageList';
 
 
 export default class BudgetService {
-    static async saveAsync (data){
-        let client  = await ClientSchema.findOne({_id: data.clientId})
+
+    static async saveAsync (budgetDto: Budget){
+
+        let client  = await ClientSchema.findOne({_id: budgetDto.client_id})
 
 		if(!client) return new ErroResult('Invalid client') 
 
-		const budget = new BudgetSchema({
-			client_id: data.client,
-			user_id: data.user_id,
-			client: data.name,
-			state: data.state,
-			title: data.title,
-			description: data.description,
-			total_price: data.total_price,
-			items: data.items
-		});
+		const newBudget = new BudgetSchema(budgetDto);
 
-		let result = await budget.save()
+		let result = await newBudget.save()
 
 		return new SuccessResult("Budget registered successfully")
     }
@@ -38,11 +35,22 @@ export default class BudgetService {
 		return new SuccessResult('', result)
     }
 
-    static async updateAsync(data){
-        let budget = await BudgetSchema.findByIdAndUpdate(data._id, data)
+    static async updateAsync(budgetDto: Budget){
+        let budget = await BudgetSchema.findByIdAndUpdate(budgetDto._id, budgetDto)
 
 		if(!budget) return new ErroResult('budget not found')
 
 		return new SuccessResult('update success', budget)
     }
+
+    static async getListAsync(filter: BudgetFilter, pageInfo: PageParameter) : Promise<PageList<any>>{
+
+		let total = await BudgetSchema.find(filter).count()
+
+		if(!total) return new PageList<any>([], 0)
+
+		let items = await BudgetSchema.find(filter, null, pageInfo)
+
+		return new PageList<any>(items, total)
+	}
 }
