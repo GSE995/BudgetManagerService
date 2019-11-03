@@ -3,18 +3,18 @@ import * as bcrypt from 'bcrypt'
 
 const UserSchema = new mongoose.Schema({
 	username: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
+    type: String,
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
 	}
 })
 
 UserSchema.pre('save', function (next) {
-    const user = this;
+    const user: any = this;
     if (this.isModified('password') || this.isNew) {
       bcrypt.genSalt(10, (error, salt) => {
       if (error) return next(error);
