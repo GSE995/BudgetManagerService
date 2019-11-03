@@ -1,13 +1,12 @@
 import ClientService from '../services/ClientService'
-import Client from '../models/Clients'
+import Client from '../models/Client'
 import {Express, Response, Request} from 'express'
-import { deserialize } from 'json-typescript-mapper'
 import * as passport from 'passport'
 import config from '../config/index'
 import logger from '../config/logger'
-import FilterFactory from '../schemas/filters/FilterFactory';
-import PageParameter from '../common/PageParameter';
-import ClientFilter from '../schemas/filters/ClientFilter';
+import PageParameter from '../common/PageParameter'
+import {ClientFilter} from '../common/Filters'
+import AutoMapper from '../common/AutoMapper'
 
 export default (app: Express) => {
 	app.route('/api/v1/client')
@@ -29,7 +28,7 @@ export default (app: Express) => {
 		.post(async (req: Request, res: Response) => {
 			try {
 
-				let clientDto = deserialize(Client, req.body)
+				let clientDto = AutoMapper.mapTo(Client, req.body)
 
 				let result = await ClientService.saveAsync(clientDto)
 				
@@ -44,7 +43,7 @@ export default (app: Express) => {
 		.put(async (req: Request, res: Response) => {
 			try {
 
-				let clientDto = deserialize(Client, req.body)
+				let clientDto = AutoMapper.mapTo(Client, req.body)
 
 				let result = await ClientService.updateAsync(clientDto)
 				
@@ -78,12 +77,11 @@ export default (app: Express) => {
 			.get(async (req: Request, res: Response) => {
 
 				let parameter = new PageParameter(req.query.limit, req.query.skip)
-				let filter = FilterFactory.create<ClientFilter>(ClientFilter, req.query)
+				let filter = new ClientFilter(req.query)
 
 				try {
 					let result = await ClientService.getListAsync(filter, parameter)
-					if(!result.items)res.status(404).send()
-					res.send(result)
+					res.send(result.data)
 				} catch (error) {
 					logger.error(error)
 				}

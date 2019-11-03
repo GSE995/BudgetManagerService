@@ -1,13 +1,12 @@
 import BudgetService from '../services/BudgetService'
 import {Request, Response, Express} from 'express'
-import {deserialize} from 'json-typescript-mapper'
 import { Budget } from '../models/Budget'
 import * as passport from 'passport'
 import config from '../config/index'
 import logger from '../config/logger'
-import PageParameter from '../common/PageParameter';
-import BudgetFilter from '../schemas/filters/BudgetFilter';
-import FilterFactory from '../schemas/filters/FilterFactory';
+import PageParameter from '../common/PageParameter'
+import {BudgetFilter} from '../common/Filters'
+import AutoMapper from '../common/AutoMapper'
 
 export default (app: Express) : void => {
 
@@ -20,7 +19,11 @@ export default (app: Express) : void => {
             try {
               
                 if(!req.params.id) res.status(404)
-                let result = await BudgetService.getByIdAsync(req.params.id)
+                let id = parseInt(req.params.id)
+                if(isNaN(id))
+                    res.status(400)
+
+                let result = await BudgetService.getByIdAsync(id)
 
                 res.send(result)
             } catch (error) {
@@ -31,7 +34,7 @@ export default (app: Express) : void => {
         .post(async (req: Request, res: Response) => {
             try {   
 
-                let budgetDto = deserialize(Budget, req.body)
+                let budgetDto = AutoMapper.mapTo(Budget, req.body)
                 let result = BudgetService.saveAsync(budgetDto)
                 res.send(result)
             } catch (error) {
@@ -61,7 +64,7 @@ export default (app: Express) : void => {
 		.get(async (req: Request, res: Response) => {
 
             let parameter = new PageParameter(req.query.limit, req.query.skip)
-			let filter = FilterFactory.create<BudgetFilter>(BudgetFilter, req.query)
+			let filter = new BudgetFilter(req.query)
 
 			try {
                 let result = await BudgetService.getListAsync(filter, parameter)
