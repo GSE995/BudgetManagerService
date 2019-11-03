@@ -2,9 +2,9 @@ import BudgetSchema from '../schemas/BudgetSchema'
 import ClientSchema from '../schemas/ClientSchema'
 import {ErroResult, SuccessResult, Result} from '../common/Result'
 import { Budget } from '../models/Budget';
-import BudgetFilter from '../schemas/filters/BudgetFilter';
-import PageParameter from '../common/PageParameter';
-import PageList from '../common/PageList';
+import {BudgetFilter} from '../common/Filters'
+import PageParameter from '../common/PageParameter'
+import PageList from '../common/PageList'
 
 
 export default class BudgetService {

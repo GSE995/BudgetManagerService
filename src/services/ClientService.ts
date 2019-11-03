@@ -1,6 +1,9 @@
 import { Result, SuccessResult, ErroResult } from '../common/Result'
 import ClientSchema from '../schemas/ClientSchema'
-import { Client } from '../models/Clients'
+import Client from '../models/Client'
+import PageParameter from '../common/PageParameter'
+import {ClientFilter} from '../common/Filters'
+import PageList from '../common/PageList'
 
 export default class ClientService {
     
@@ -29,5 +32,16 @@ export default class ClientService {
 	static async removeAsync(clientId: number) : Promise<Result<any>>{
 		let result = await ClientSchema.findByIdAndRemove(clientId)
 		return new SuccessResult('', result)
+	}
+
+	static async getListAsync(filter: ClientFilter, pageInfo: PageParameter) : Promise<Result<any>>{
+
+		let total = await ClientSchema.find(filter).count()
+
+		if(!total) return new SuccessResult('', new PageList<any>([], 0))
+
+		let items = await ClientSchema.find(filter, null, pageInfo)
+
+		return new SuccessResult('', new PageList<any>(items, total))
 	}
 }
