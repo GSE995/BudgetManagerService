@@ -9,7 +9,7 @@ export default (app: Express) => {
             try {
 
                 let result = await AuthService.login(req.body.username, req.body.password)
-                if(!result.Success){
+                if(!result.success){
                     res.status(404).send(result)
                 }
                 res.json(result)
