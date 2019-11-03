@@ -1,5 +1,4 @@
 import * as mongoose from 'mongoose'
-import {JsonProperty} from 'json-typescript-mapper'
 
 export default class Client {
     _id: mongoose.Schema.Types.ObjectId = null
