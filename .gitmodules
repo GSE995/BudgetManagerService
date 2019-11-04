@@ -1,0 +1,3 @@
+[submodule "BudgetManagerShared"]
+	path = BudgetManagerShared
+	url = https://github.com/GSE995/BudgetManagerShared.git
