@@ -1,5 +1,5 @@
 import User from '../schemas/UserSchema'
-import {Result, SuccessResult, ErroResult} from '../common/Result'
+import {ErroResult, SuccessResult, Result} from '@models/Result'
 
 export class UserService{
   	static async signup (username: string, password: string): Promise<Result<any>>{

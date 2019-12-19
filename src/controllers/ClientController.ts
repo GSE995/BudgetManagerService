@@ -1,11 +1,11 @@
-import ClientService from '../services/ClientService'
-import Client from '../models/Client'
-import {Express, Response, Request} from 'express'
 import * as passport from 'passport'
+import {Express, Response, Request} from 'express'
 import config from '../config/index'
 import logger from '../config/logger'
-import PageParameter from '../common/PageParameter'
-import {ClientFilter} from '../common/Filters'
+import {PageParameter} from '@models/Page'
+import {ClientFilter} from '@models/Filters'
+import ClientService from '../services/ClientService'
+import {Client} from '../schemas/ClientSchema'
 import AutoMapper from '../common/AutoMapper'
 
 export default (app: Express) => {

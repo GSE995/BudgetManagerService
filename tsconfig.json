@@ -4,12 +4,17 @@
         "module": "commonjs", //импорт модулей преобразуется в commonjs (node require)
         "sourceMap": true, //генерировать sourceMaps, нужно для отладки
         "outDir": "build/src", //проект билдится из папки /src в папку /build/src
-		"rootDir": "src",
-		"experimentalDecorators": true,
-    	"emitDecoratorMetadata": true
+        "baseUrl": ".",
+        "paths": {
+            "@models/*": ["BudgetManagerShared/models/*"]
+        },
+        "rootDir": ".",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
     },
     //указывает что включаться должны только файлы из папки /src
     "include": [
       "src/**/*"
-    ]
+    ],
+    
 }

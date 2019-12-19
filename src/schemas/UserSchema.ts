@@ -1,6 +1,12 @@
 import * as mongoose from "mongoose"
 import * as bcrypt from 'bcrypt'
 
+export class User {
+  _id: mongoose.Schema.Types.ObjectId
+  username: String
+  password: String
+}
+
 const UserSchema = new mongoose.Schema({
 	username: {
     type: String,
@@ -35,6 +41,4 @@ UserSchema.methods.comparePassword = async function(password, callback) : Promis
 	return await bcrypt.compare(password, this.password);
 }
 
-const User = mongoose.model("User", UserSchema);
-
-export default User;
+export default mongoose.model("User", UserSchema);

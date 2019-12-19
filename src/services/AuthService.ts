@@ -1,5 +1,5 @@
 import UserSchema from '../schemas/UserSchema'
-import {Result, SuccessResult, ErroResult} from '../common/Result'
+import {ErroResult, SuccessResult, Result} from '@models/Result'
 import * as jwt from 'jsonwebtoken'
 import config from '../config'
 

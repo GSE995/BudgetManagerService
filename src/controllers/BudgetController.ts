@@ -1,11 +1,11 @@
 import BudgetService from '../services/BudgetService'
 import {Request, Response, Express} from 'express'
-import { Budget } from '../models/Budget'
+import { Budget } from '../schemas/BudgetSchema'
 import * as passport from 'passport'
 import config from '../config/index'
 import logger from '../config/logger'
-import PageParameter from '../common/PageParameter'
-import {BudgetFilter} from '../common/Filters'
+import {PageParameter} from '@models/Page'
+import {BudgetFilter} from '@models/Filters'
 import AutoMapper from '../common/AutoMapper'
 
 export default (app: Express) : void => {

@@ -1,5 +1,5 @@
 import {UserService} from "../services/UserService"
-import {ErroResult} from '../common/Result'
+import {ErroResult} from '@models/Result'
 import {Express, Response, Request} from 'express'
 import logger from "../config/logger"
 

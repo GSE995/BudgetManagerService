@@ -1,11 +1,8 @@
-import BudgetSchema from '../schemas/BudgetSchema'
+import BudgetSchema, {Budget} from '../schemas/BudgetSchema'
 import ClientSchema from '../schemas/ClientSchema'
-import {ErroResult, SuccessResult, Result} from '../common/Result'
-import { Budget } from '../models/Budget';
 import {BudgetFilter} from '../common/Filters'
-import PageParameter from '../common/PageParameter'
-import PageList from '../common/PageList'
-
+import {ErroResult, SuccessResult} from '@models/Result'
+import { PageParameter, PageList } from "@models/Page"
 
 export default class BudgetService {
 
@@ -19,7 +16,7 @@ export default class BudgetService {
 
 		let result = await newBudget.save()
 
-		return new SuccessResult("Budget registered successfully")
+		return new SuccessResult("Budget registered successfully", result)
     }
 
     static async getByIdAsync(budgetId: Number){
@@ -40,7 +37,7 @@ export default class BudgetService {
 
 		if(!budget) return new ErroResult('budget not found')
 
-		return new SuccessResult('update success', budget)
+		return new SuccessResult('Update success', budget)
     }
 
     static async getListAsync(filter: BudgetFilter, pageInfo: PageParameter) : Promise<PageList<any>>{
